@@ -2,9 +2,9 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 
 const errorController = require('./controllers/error');
+const mongoConnect = require('./util/database').mongoConnect;
 const User = require('./models/user');
 
 const app = express();
@@ -18,10 +18,15 @@ const shopRoutes = require('./routes/shop');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+const mongodb = require('mongodb');
+const ObjectId = mongodb.ObjectId;
+let x = new User("Dave", "mail@server.com", {}, new ObjectId('123456789102') )
+
 app.use((req, res, next) => {
-  User.findById('5f26d93e55455637901a5db4')
+  User.findById('313233343536373839313032')
     .then(user => {
-      req.user = user;
+      req.user = new User(user.name, user.email, user.cart, user._id);
+      console.log("Set user", req.user);
       next();
     })
     .catch(err => console.log(err));
@@ -32,25 +37,6 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-mongoose
-  .connect(
-    'mongodb+srv://node-complete:pleasework@cluster0.fhov7.mongodb.net/shop?retryWrites=true&w=majority'
-  )
-  .then(result => {
-    User.findOne().then(user => {
-      if (!user) {
-        const user = new User({
-          name: 'Dave',
-          email: 'Dave@test.com',
-          cart: {
-            items: []
-          }
-        });
-        user.save();
-      }
-    });
-    app.listen(3000);
-  })
-  .catch(err => {
-    console.log(err);
-  });
+mongoConnect(() => {
+  app.listen(3000);
+});
