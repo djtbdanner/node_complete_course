@@ -12,8 +12,6 @@ const errorController = require('./controllers/error');
 const User = require('./models/user');
 const config = require('./config');
 
-console.log(config.mongo.uri);
-
 const app = express();
 const store = new MongoDBStore({
   uri: config.mongo.uri,
