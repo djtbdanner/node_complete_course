@@ -2,11 +2,14 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const expressHbs = require('express-handlebars');
 
 const app = express();
 
-app.set('view engine', 'pug');
-app.set('views', 'views');
+// the name here is reflected in the file names in the view
+// I changed the engine to html allowing me to just use the html files for the work
+app.engine('html', expressHbs({layoutsDir:'views/layouts/', defaultLayout:'main', extname:'html'}));// initialize the engine
+app.set('view engine', 'html');
 
 const adminData = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
@@ -24,7 +27,7 @@ app.use((req, res, next) => {
 app.listen(3000);
 
  
-
+ 
 // const path = require('path');// core module
 // const express = require('express');
 // const bodyParser = require('body-parser');
