@@ -10,13 +10,13 @@ const flash = require('connect-flash');
 
 const errorController = require('./controllers/error');
 const User = require('./models/user');
+const config = require('./config');
 
-const MONGODB_URI =
-  'mongodb+srv://node-complete:pleasework@cluster0.fhov7.mongodb.net/shop?retryWrites=true&w=majority';
+console.log(config.mongo.uri);
 
 const app = express();
 const store = new MongoDBStore({
-  uri: MONGODB_URI,
+  uri: config.mongo.uri,
   collection: 'sessions'
 });
 const csrfProtection = csrf();
@@ -67,7 +67,7 @@ app.use(authRoutes);
 app.use(errorController.get404);
 
 mongoose
-  .connect(MONGODB_URI)
+  .connect(config.mongo.uri)
   .then(result => {
     app.listen(3000);
   })
