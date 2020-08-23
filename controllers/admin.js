@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 const mongoose = require('mongoose');
 
+=======
+>>>>>>> 1db9e846b46882316f86195036846da415f61012
 const { validationResult } = require('express-validator/check');
 
 const Product = require('../models/product');
@@ -26,7 +29,11 @@ exports.postAddProduct = (req, res, next) => {
     console.log(errors.array());
     return res.status(422).render('admin/edit-product', {
       pageTitle: 'Add Product',
+<<<<<<< HEAD
       path: '/admin/add-product',
+=======
+      path: '/admin/edit-product',
+>>>>>>> 1db9e846b46882316f86195036846da415f61012
       editing: false,
       hasError: true,
       product: {
