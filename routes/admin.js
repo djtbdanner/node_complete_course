@@ -4,7 +4,7 @@ const express = require('express');
 const { body } = require('express-validator/check');
 
 const adminController = require('../controllers/admin');
-const isAuth = require('../middleware/is-auth');// this is middleware function that will next if authorized, but not if not
+const isAuth = require('../middleware/is-auth');
 
 const router = express.Router();
 
@@ -22,7 +22,6 @@ router.post(
       .isString()
       .isLength({ min: 3 })
       .trim(),
-    body('imageUrl').isURL(),
     body('price').isFloat(),
     body('description')
       .isLength({ min: 5, max: 400 })
@@ -41,7 +40,6 @@ router.post(
       .isString()
       .isLength({ min: 3 })
       .trim(),
-    body('imageUrl').isURL(),
     body('price').isFloat(),
     body('description')
       .isLength({ min: 5, max: 400 })
